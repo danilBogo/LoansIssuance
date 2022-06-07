@@ -18,8 +18,15 @@ public class CreditService
             creditDto.PassportSeries, creditDto.PassportNumber, creditDto.PassportIssuer, creditDto.PassportIssueDate,
             creditDto.PassportRegInformation, creditDto.Adult, creditDto.Employment, creditDto.HasOtherCredits);
 
+        var message = "";
+        if (!creditDto.IsJudged && isReallyJudged)
+        {
+            creditDto.IsJudged = isReallyJudged;
+            message = "Не пытайтесь нас обмануть: наш сервис показал, что вы были судимы. ";
+        }
+        
         var result = GetScoredFromAdult(creditDto.Adult, creditDto.Amount, creditDto.Deposit) +
-                     GetScoredFromJudging(isReallyJudged) +
+                     GetScoredFromJudging(creditDto.IsJudged) +
                      GetScoredFromEmployment(creditDto.Employment, creditDto.Adult) +
                      GetScoresFromPurpose(creditDto.Purpose) +
                      GetScoresFromDeposit(creditDto.Deposit, creditDto.CarAge) +
@@ -27,19 +34,19 @@ public class CreditService
                      GetScoresFromAmount(creditDto.Amount);
         return result switch
         {
-            <= 80 => $"Вам отказано в кредите, так как ваш кредитный балл равен {result}",
+            <= 80 => $"{message}Вам отказано в кредите, так как ваш кредитный балл равен {result}",
             > 80 and < 84 =>
-                $"Вы можете получить кредит с процентной ставкой 30%, так как ваш кредитный балл равен {result}",
+                $"{message}Вы можете получить кредит с процентной ставкой 30%, так как ваш кредитный балл равен {result}",
             >= 84 and < 88 =>
-                $"Вы можете получить кредит с процентной ставкой 26%, так как ваш кредитный балл равен {result}",
+                $"{message}Вы можете получить кредит с процентной ставкой 26%, так как ваш кредитный балл равен {result}",
             >= 88 and < 92 =>
-                $"Вы можете получить кредит с процентной ставкой 22%, так как ваш кредитный балл равен {result}",
+                $"{message}Вы можете получить кредит с процентной ставкой 22%, так как ваш кредитный балл равен {result}",
             >= 92 and < 96 =>
-                $"Вы можете получить кредит с процентной ставкой 19%, так как ваш кредитный балл равен {result}",
+                $"{message}Вы можете получить кредит с процентной ставкой 19%, так как ваш кредитный балл равен {result}",
             >= 96 and < 100 =>
-                $"Вы можете получить кредит с процентной ставкой 15%, так как ваш кредитный балл равен {result}",
+                $"{message}Вы можете получить кредит с процентной ставкой 15%, так как ваш кредитный балл равен {result}",
             100 => $"Вы можете получить кредит с процентной ставкой 12,5%, так как ваш кредитный балл равен {result}",
-            _ => "Кредитный балл > 100"
+            _ => $"{message}Кредитный балл > 100"
         };
     }
 
