@@ -1,4 +1,5 @@
 ﻿using LoansIssuance.Dto;
+using LoansIssuance.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LoansIssuance.Controllers;
@@ -7,11 +8,17 @@ namespace LoansIssuance.Controllers;
 [Route("credit")]
 public class CreditController : ControllerBase
 {
-    [HttpPost("dicks")]
-    public IActionResult GetDicks([FromBody] DickDto dickDto) =>
-        new JsonResult(new
-        {
-            nazvanie =
-                $"Hey {dickDto.Name} {dickDto.Surname} {dickDto.Patronymic} these dicks for you 8====D 8====D 8====D"
-        });
+    private readonly CreditService _creditService;
+
+    public CreditController(CreditService creditService)
+    {
+        _creditService = creditService;
+    }
+    
+    [HttpPost("take")]
+    public IActionResult TakeCredit([FromBody] CreditDto creditDto)
+    {
+        var result = _creditService.GetCreditResult(creditDto);
+        return Ok(result);
+    }
 }
