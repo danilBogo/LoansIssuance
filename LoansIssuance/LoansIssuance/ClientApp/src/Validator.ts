@@ -28,7 +28,7 @@ export const IsSurnameValid = (value: string) =>
 export const IsPatronymicValid = (value: string) =>
     value === undefined || PatronymicMinLength <= value.length && value.length <= PatronymicMaxLength;
 
-export const IsPassportSeriesValid = (value: string) => 
+export const IsPassportSeriesValid = (value: string) =>
     value.length === PassportSeriesLength;
 export const IsPassportNumberValid = (value: string) =>
     value.length === PassportNumberLength;
@@ -46,29 +46,30 @@ export const IsAdultValid = (value: number) =>
 export const IsAmountValid = (value: number) =>
     AmountMin <= value && value <= AmountMax;
 
-export function IsCreditDtoValid(dto: ICreditDto){
+export function IsCreditDtoValid(dto: ICreditDto) {
     if (!IsSurnameValid(dto.surname))
-        return "Неверная фамилия";
+        return `Неверная фамилия. Допустимая длина от ${SurnameMinLength} до ${SurnameMaxLength}`;
     if (!IsNameValid(dto.name))
-        return "Неверное имя";
+        return `Неверное имя. Допустимая длина от ${NameMinLength} до ${NameMaxLength}`;
     if (!IsPatronymicValid(dto.patronymic))
-        return "Неверное отчество";
+        return `Неверное отчество Допустимая длина до ${PatronymicMaxLength}`;
     if (!IsPassportSeriesValid(dto.passportSeries))
-        return "Неверная серия паспорта";
+        return `Неверная серия паспорта. Допустимая длина ${PassportSeriesLength}`;
     if (!IsPassportNumberValid(dto.passportNumber))
-        return "Неверный номер паспорта";
+        return `Неверный номер паспорта. Допустимая длина ${PassportNumberLength}`;
     if (!IsPassportIssuerValid(dto.passportIssuer))
-        return "Неверный \"кем выдан\"";
+        return `Неверный \"кем выдан\". Допустимая длина от ${PassportIssuerMinLength} до ${PassportIssuerMaxLength}`;
     if (dto.passportIssueDate > new Date())
-        return "Неверная дата выдачи";
+        return "Дата выдачи не может быть больше текущей, потому что у вас нет машины времени";
     if (!IsPassportRegInformationValid(dto.passportRegInformation))
-        return "Неверная информация о прописке";
+        return `Неверная информация о прописке. 
+        Допустимая длина от ${PassportRegInformationMinLength} до ${PassportRegInformationMaxLength}`;
     if (!IsCarAgeValid(dto.carAge) && dto.deposit === DepositEnum.Car)
-        return "Неверный возраст автомобиля";
+        return `Неверный возраст автомобиля. Он должен быть от ${CarAgeMin} до ${CarAgeMax}`;
     if (!IsAdultValid(dto.adult))
-        return "Ваш возраст не подходит для получения кредита";
+        return `Ваш возраст не подходит для получения кредита. Мы выдаем кредит только лицам от ${AdultMin} до ${AdultMax}`;
     if (!IsAmountValid(dto.amount))
-        return "Введенная сумма не подходит для получения кредита";
+        return `Введенная сумма не подходит для получения кредита. Мы выдаем только от ${AmountMin} до ${AmountMax}`;
     return true;
 }
 
