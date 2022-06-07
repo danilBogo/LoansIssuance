@@ -244,8 +244,7 @@ export function CreditForm() {
                     <label>Возраст авто(учитывается, если в пункте "залог" выбран автомобиль)</label>
                     <input className="w-25 mb-3"
                            value={carAge}
-                           min={AmountMin}
-                           max={AmountMax}
+                           maxLength={2}
                            onChange={(e) => {
                                let result = Number.parseInt(e.target.value);
                                if (!isNaN(result))
@@ -269,8 +268,7 @@ export function CreditForm() {
                     <label>Сумма</label>
                     <input className="w-25 mb-3"
                            value={amount}
-                           min={AmountMin}
-                           max={AmountMax}
+                           maxLength={AmountMax.toString().length}
                            onChange={(e) => {
                                let result = Number.parseInt(e.target.value);
                                if (!isNaN(result))
