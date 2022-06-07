@@ -59,6 +59,8 @@ export function IsCreditDtoValid(dto: ICreditDto){
         return "Неверный номер паспорта";
     if (!IsPassportIssuerValid(dto.passportIssuer))
         return "Неверный \"кем выдан\"";
+    if (dto.passportIssueDate > new Date())
+        return "Неверная дата выдачи";
     if (!IsPassportRegInformationValid(dto.passportRegInformation))
         return "Неверная информация о прописке";
     if (!IsCarAgeValid(dto.carAge) && dto.deposit === DepositEnum.Car)

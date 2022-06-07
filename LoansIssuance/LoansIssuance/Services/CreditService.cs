@@ -18,8 +18,11 @@ public class CreditService
             creditDto.PassportSeries, creditDto.PassportNumber, creditDto.PassportIssuer, creditDto.PassportIssueDate,
             creditDto.PassportRegInformation, creditDto.Adult, creditDto.Employment, creditDto.HasOtherCredits);
 
+        if (!creditDto.IsJudged && isReallyJudged)
+            return "Не пытайтесь нас обмануть: наш сервис показал, что вы были судимы";
+        
         var result = GetScoredFromAdult(creditDto.Adult, creditDto.Amount, creditDto.Deposit) +
-                     GetScoredFromJudging(isReallyJudged) +
+                     GetScoredFromJudging(creditDto.IsJudged) +
                      GetScoredFromEmployment(creditDto.Employment, creditDto.Adult) +
                      GetScoresFromPurpose(creditDto.Purpose) +
                      GetScoresFromDeposit(creditDto.Deposit, creditDto.CarAge) +

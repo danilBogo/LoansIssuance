@@ -20,5 +20,5 @@ export const AdultMax = 72;
 export const CarAgeMin = 0;
 export const CarAgeMax = 100;
 
-export const AmountMin = 0;
+export const AmountMin = 1;
 export const AmountMax = 10000000;

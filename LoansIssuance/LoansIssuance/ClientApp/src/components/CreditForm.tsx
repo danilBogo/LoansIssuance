@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {EmploymentEnum} from "../enums/EmploymentEnum";
 import {PurposeEnum} from "../enums/PurposeEnum";
@@ -63,12 +63,11 @@ export function CreditForm() {
             amount: amount
         };
         let result = IsCreditDtoValid(dto)
-        if (result === true){
+        if (result === true) {
             axios.post("credit/take", dto)
                 .then(r => errorLabel.innerHTML = r.data)
                 .catch(r => console.log(r));
-        }
-        else
+        } else
             errorLabel.innerHTML = result;
     }
 
@@ -128,10 +127,11 @@ export function CreditForm() {
                     <input className="w-25 mb-3"
                            type="date"
                            value={passportIssueDate.toISOString().split('T')[0]}
+                           min="1900-01-01"
+                           max="3000-01-01"
                            onChange={(e) => {
-                               let result = new Date(e.target.value);
-                               if (result !== undefined)
-                                   setPassportIssueDate(result);
+                               if (!isNaN(Date.parse(e.target.value)))
+                                   setPassportIssueDate(new Date(e.target.value));
                            }}/>
 
                     <label>Информация о прописке</label>
@@ -144,8 +144,7 @@ export function CreditForm() {
                     <label>Возраст</label>
                     <input className="w-25 mb-3"
                            value={adult}
-                           min={AdultMin}
-                           max={AdultMax}
+                           maxLength={3}
                            onChange={(e) => {
                                let result = Number.parseInt(e.target.value);
                                if (!isNaN(result))
@@ -157,9 +156,11 @@ export function CreditForm() {
                     <label>Судимость</label>
                     <select className="w-25 mb-3"
                             onChange={(e) => {
-                                let result = !!e.target.value;
-                                setJudging(result);
-                            }}>
+                                if (e.target.value == "true")
+                                    setJudging(true);
+                                else
+                                    setJudging(false);
+                                }}>
                         <option value="false">Нет судимости</option>
                         <option value="true">Есть судимость</option>
                     </select>
@@ -256,8 +257,10 @@ export function CreditForm() {
                     <label>Наличие других кредитов</label>
                     <select className="w-25 mb-3"
                             onChange={(e) => {
-                                let result = !!e.target.value;
-                                setOtherCredits(result);
+                                if (e.target.value == "true")
+                                    setOtherCredits(true);
+                                else
+                                    setOtherCredits(false);
                             }}>
                         <option value="false">Нет</option>
                         <option value="true">Есть</option>

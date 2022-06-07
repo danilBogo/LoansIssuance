@@ -24,6 +24,6 @@ public static class Constants
     public const int CarAgeMin = 0;
     public const int CarAgeMax = 100;
 
-    public const int AmountMin = 0;
+    public const int AmountMin = 1;
     public const int AmountMax = 10000000;
 }
