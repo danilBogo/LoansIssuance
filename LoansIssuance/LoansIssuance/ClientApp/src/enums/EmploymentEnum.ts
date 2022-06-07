@@ -1,7 +1,7 @@
 export enum EmploymentEnum {
-    Unemployed,
-    IndividualEntrepreneur,
     ContractLaborCodeRusFed,
+    IndividualEntrepreneur,
+    Freelancer,
     Retiree,
-    Freelancer
+    Unemployed
 }
