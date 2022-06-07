@@ -33,7 +33,7 @@ export function CreditForm() {
     const [passportRegInformation, setPassportRegInformation] = useState("")
     const [adult, setAdult] = useState<number>(0)
     const [isJudged, setJudging] = useState<boolean>(false)
-    const [employment, setEmployment] = useState<EmploymentEnum>(EmploymentEnum.Unemployed)
+    const [employment, setEmployment] = useState<EmploymentEnum>(EmploymentEnum.ContractLaborCodeRusFed)
     const [purpose, setPurpose] = useState<PurposeEnum>(PurposeEnum.Consumer)
     const [deposit, setDeposit] = useState<DepositEnum>(DepositEnum.None)
     const [carAge, setCarAge] = useState<number>(0)
